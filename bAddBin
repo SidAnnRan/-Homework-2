@@ -1,4 +1,3 @@
-
 #include <iostream>
 using namespace std;
 
@@ -113,8 +112,10 @@ void lShiftBin(int dec1, bool bin1[], int shift, int LEN) {
     cout << "\n";
 }
 void rShiftBin(int dec1, bool bin1[], int shift, int LEN) {
-    bool resultBin[LEN] = {false}; // Ensure all bits are initialized to false
-
+    bool resultBin[LEN];
+for (int i = 0; i < LEN; i++) {  
+    resultBin[i] = false;
+}
     // Calculate the effective shift within the 4-bit boundary
     int effectiveShift = shift % LEN;
 
@@ -132,6 +133,33 @@ void rShiftBin(int dec1, bool bin1[], int shift, int LEN) {
     printBin(bin1, LEN);
     cout << " >> ";
     printBin(resultBin, LEN);
+    cout << " = ";
+    printBin(resultBin, LEN);
+    cout << "\n";
+}
+void bAddBin(int dec1, bool bin1[], int dec2, bool bin2[], int LEN) {
+    bool resultBin[LEN];
+    for (int i = 0; i < LEN; i++) {  
+        resultBin[i] = false; // Initialize all bits to false
+    }
+    bool carry = false; // Initialize carry to false
+
+    // Perform binary addition
+    for (int i = 0; i < LEN; ++i) {
+        // Add the corresponding bits plus any carry
+        bool sum = bin1[i] ^ bin2[i] ^ carry;
+        carry = (bin1[i] && bin2[i]) || (bin1[i] && carry) || (bin2[i] && carry);
+        resultBin[i] = sum;
+    }
+
+    // The result is modulo 2^LEN due to the 4-bit limit
+    int resultDec = bin2Dec(resultBin, LEN);
+
+    // Print operands in decimal and their corresponding binary values
+    cout << dec1 << " + " << dec2 << " = " << resultDec << "\n";
+    printBin(bin1, LEN);
+    cout << " + ";
+    printBin(bin2, LEN);
     cout << " = ";
     printBin(resultBin, LEN);
     cout << "\n";
@@ -190,7 +218,7 @@ void menu(int dec1, bool bin1[], int dec2, bool bin2[], int LEN) {
             rShiftBin(dec1,bin1, dec2, LEN);
             break;
         case 7:
-            result = (dec1 + dec2) & 0xF; // Addition with 4-bit overflow
+    bAddBin(dec1, bin1, dec2, bin2, LEN);
             break;
     }
 
