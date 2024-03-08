@@ -112,7 +112,10 @@ void lShiftBin(int dec1, bool bin1[], int shift, int LEN) {
     cout << "\n";
 }
 void rShiftBin(int dec1, bool bin1[], int shift, int LEN) {
-    bool resultBin[LEN] = {false}; // Ensure all bits are initialized to false
+    bool resultBin[LEN];
+    for (int i = 0; i < LEN; i++) {  
+        resultBin[i] = false; // Initialize all bits to false
+    }
 
     // Calculate the effective shift within the 4-bit boundary
     int effectiveShift = shift % LEN;
