@@ -112,18 +112,15 @@ void lShiftBin(int dec1, bool bin1[], int shift, int LEN) {
     cout << "\n";
 }
 void rShiftBin(int dec1, bool bin1[], int shift, int LEN) {
-    bool resultBin[LEN] = {false}; // Properly initialized to false
+    bool resultBin[LEN] = {false}; // Ensure all bits are initialized to false
 
     // Calculate the effective shift within the 4-bit boundary
     int effectiveShift = shift % LEN;
 
-    // Perform the right shift operation
+    // Perform the right shift operation with bit wrapping
     for (int i = 0; i < LEN; i++) {
-        if (i - effectiveShift >= 0) {
-            resultBin[i] = bin1[i - effectiveShift];
-        }
-        // If the current index minus the shift amount is negative,
-        // the bit is 'shifted out', so we don't need to set it (it stays false).
+        int shiftedIndex = (i - effectiveShift + LEN) % LEN;
+        resultBin[shiftedIndex] = bin1[i];
     }
 
     // Convert the binary result to decimal
@@ -145,9 +142,9 @@ void menu(int dec1, bool bin1[], int dec2, bool bin2[], int LEN) {
         cout << "1. Bitwise AND (&)\n";
         cout << "2. Bitwise OR (|)\n";
         cout << "3. Bitwise XOR (^)\n";
-        cout << "4. Bitwise NOT (~) - Only on first number\n";
-        cout << "5. Left Shift (<<) - Only on first number\n";
-        cout << "6. Right Shift (>>) - Only on first number\n";
+        cout << "4. Bitwise NOT (~)\n";
+        cout << "5. Left Shift (<<)\n";
+        cout << "6. Right Shift (>>)\n";
         cout << "7. Addition (+)\n";
         cout << "Choose an op: ";
         cin >> operation;
